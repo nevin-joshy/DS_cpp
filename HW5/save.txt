@@ -1,0 +1,117 @@
+void Separate(TrainCar*& train1,TrainCar*& train2,TrainCar*& train3){
+    int numcars = 0;
+    int mid = 0;
+    int frontengines = 0;
+    int backengines = 0;
+    TrainCar* counter = train1;
+    TrainCar* lastengine;
+
+    while(counter!=NULL){
+        numcars++;
+        counter = counter->next;
+    }
+    mid = numcars/2;
+    TrainCar* middle = train1;
+    int midcount = 0;
+    while(midcount!=mid){
+        middle = middle->next;
+        midcount++;
+    }
+    counter = train1;
+    while(counter!=middle){
+        if(counter->isEngine()){
+            frontengines++;
+        }
+        counter = counter->next;
+    }
+    while(counter!=NULL){
+        if(counter->isEngine()){
+            backengines++;
+        }
+        counter = counter->next;
+    }
+    int totalengines = frontengines + backengines;
+
+    if(numcars%2!=0){
+        int mid2 = (numcars/2) +1;
+        TrainCar* middle2 = train1;
+        int midcount = 0;
+        int frontengines2 = 0;
+        int backengines2 = 0;
+        while(midcount!=mid2){
+            middle2 = middle2->next;
+            midcount++;
+        }
+        counter = train1;
+        while(counter!=middle2){
+            if(counter->isEngine()){
+                frontengines2++;
+            }
+            counter = counter->next;
+        }
+        while(counter!=NULL){
+            if(counter->isEngine()){
+                backengines2++;
+            }
+            counter = counter->next;
+        }
+        if(backengines2 == totalengines/2 || frontengines2 == totalengines/2){
+            middle = middle2;
+            backengines = backengines2;
+            frontengines = frontengines2;
+        }
+    }
+
+    while(frontengines!=totalengines/2 && backengines!= totalengines/2){
+        if(backengines<frontengines){
+            middle = middle->next;
+            counter = train1;
+            while(counter!=middle){
+                if(counter->isEngine()){
+                    lastengine = counter;
+                }
+                counter=counter->next;
+            }
+            lastengine->prev->next = lastengine->next;
+            lastengine->next->prev = lastengine->prev;            
+            lastengine->prev = NULL;
+            lastengine->next = NULL;
+            lastengine->prev = middle->prev;
+            middle->prev->next = lastengine;
+            middle->prev = lastengine;
+            lastengine->next = middle;
+            middle = lastengine;
+            frontengines-=1;
+            backengines+=1;
+        }
+        else{
+            counter = middle;
+            middle = middle->prev;
+            while(counter!=NULL){
+                if(counter->isEngine()){
+                    lastengine = counter;
+                    break;
+                }
+                counter=counter->next;
+            }
+            
+            if(lastengine->next!=NULL)
+                lastengine->next->prev = lastengine->prev;
+            lastengine->prev->next = lastengine->next;
+            lastengine->prev = NULL;
+            lastengine->next = NULL;
+            lastengine->prev = middle->prev;
+            middle->prev->next = lastengine;
+            middle->prev = lastengine;
+            lastengine->next = middle;
+            backengines-=1;
+            frontengines+=1;
+        }
+    }
+
+    train3 = middle;
+    middle->prev->next = NULL;
+    train3->prev = NULL;
+    train2 = train1;
+    train1= NULL;
+}
