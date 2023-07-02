@@ -1,0 +1,5 @@
+-q snake all
+-q king-dedede forward-smash
+-f down-smash 4
+-s forward-tilt 3
+-d up-smash 10
