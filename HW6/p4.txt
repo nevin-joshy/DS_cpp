@@ -1,0 +1,17 @@
+4 solution(s)
+Board:
+  echoo
+  baker
+  aptoe
+Board:
+  oohce
+  rekab
+  eotpa
+Board:
+  aptoe
+  baker
+  echoo
+Board:
+  eotpa
+  rekab
+  oohce

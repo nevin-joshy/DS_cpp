@@ -1,0 +1,5 @@
+Board:
+  game
+  oice
+  life
+  famt
